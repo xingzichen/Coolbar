@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_item"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:src="@drawable/mushroom"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:text="小蘑菇"/>
+
+    <TextView
+        android:id="@+id/tv_shop_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginRight="24dp"
+        android:text="3.00元/瓶"/>
+
+    <Button
+        android:id="@+id/btn_shop_sub"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"/>
+    <EditText
+        android:id="@+id/edit_shop_quantity"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:numeric="integer"
+        android:gravity="center_horizontal"/>
+    <Button
+        android:id="@+id/btn_shop_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="+"/>
+
+
+</LinearLayout>

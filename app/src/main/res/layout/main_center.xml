@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@android:color/white">
+
+    <include
+        layout="@layout/custom_commen_title"
+        android:focusable="true"/>
+
+    <include
+        layout="@layout/net_status_bar"
+        android:focusable="true"/>
+
+    <!-- 商品列表 -->
+    <com.cmbchina.coolbar.pulltorefresh.PullToRefreshScrollView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrDrawable="@drawable/refresh_arrow_2"
+        ptr:ptrHeaderBackground="@android:color/white"
+        ptr:ptrMode="pullDownFromTop">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.cmbchina.coolbar.customviews.ShoppingListView
+                android:id="@+id/list_view_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadingEdge="none"
+                android:focusable="true"
+                android:scrollingCache="true"
+                android:transcriptMode="normal">
+
+            </com.cmbchina.coolbar.customviews.ShoppingListView>
+
+        </FrameLayout>
+
+    </com.cmbchina.coolbar.pulltorefresh.PullToRefreshScrollView>
+
+</LinearLayout>
