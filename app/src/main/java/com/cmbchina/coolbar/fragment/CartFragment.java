@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,14 @@ import java.util.Map;
  */
 public class CartFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "CartFragment";
+
     private CartListAdapter mCartListAdapter;
     private CartListView mCartListView;
 
     private LayoutInflater mInflater;
 
-    private ArrayList<Commodity> commodityArrayList;
+    private Map<String, Map<String, Object>> commodityMap;
     private ArrayList<Map<String,Object>> mArray;
 
 
@@ -49,7 +52,9 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
         mArray = new ArrayList<Map<String, Object>>();
 
-        commodityArrayList = new ArrayList<Commodity>();
+//        commodityArrayList = new ArrayList<Commodity>();
+
+        commodityMap = new HashMap<>();
 
         View view = inflater.inflate(R.layout.main_right, null);
         mCartListView = (CartListView) view.findViewById(R.id.list_view_cart);
@@ -67,64 +72,47 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-//    private void initTestData(){
-//        Map<String, Object> map = new HashMap<String, Object>();
-//
-//        // Test data
-//        map.put("title", "这是啥");
-//        map.put("pic", R.drawable.mushroom);
-//        mArray.add(map);
-//
-//        map = new HashMap<String, Object>();
-//        map.put("title", "那是啥");
-//        map.put("pic", R.drawable.mushroom);
-//        mArray.add(map);
-//
-//        map = new HashMap<String, Object>();
-//        map.put("title", "还有啥");
-//        map.put("pic", R.drawable.mushroom);
-//        mArray.add(map);
-//    }
-
     private void refreshListData(){
         mArray.clear();
-        Map<String, Map<String, Object>> mapArray = new HashMap<>();
 
-        for(Commodity cm:commodityArrayList){
-
-            if (mapArray.containsKey(cm.getName())){
-
-                Map<String, Object> tmp = mapArray.get(cm.getName());
-                int num = Integer.parseInt((String) tmp.get("quantity"));
-                tmp.put("quantity", Integer.toString(++num));
-
-
-            }else {
-
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("title", cm.getName());
-                map.put("price", cm.getPrice());
-                map.put("quantity", "1");
-                map.put("pic", R.drawable.mushroom);
-                mapArray.put(cm.getName(), map);
-            }
-
-        }
-
-        for(Map<String, Object> map : mapArray.values()){
+        for(Map<String, Object> map : commodityMap.values()){
             mArray.add(map);
+            Log.d(TAG, "quantity : " + map.get("quantity"));
         }
 
         mCartListAdapter.notifyDataSetChanged();
     }
 
     public void addCommoditytoCart(Commodity commodity){
-        commodityArrayList.add(commodity);
+        if (commodityMap.containsKey(commodity.getName())){
+
+            Map<String, Object> tmp = commodityMap.get(commodity.getName());
+            int num = Integer.parseInt((String) tmp.get("quantity"));
+            tmp.put("quantity", Integer.toString(++num));
+
+        }else {
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("title", commodity.getName());
+            map.put("price", commodity.getPrice());
+            map.put("quantity", "1");
+            map.put("pic", R.drawable.mushroom);
+            commodityMap.put(commodity.getName(), map);
+        }
         refreshListData();
     }
 
     public void subCommoditytoCart(Commodity commodity){
-        commodityArrayList.remove(commodity);
+        if (commodityMap.containsKey(commodity.getName())){
+
+            Map<String, Object> tmp = commodityMap.get(commodity.getName());
+            int num = Integer.parseInt((String) tmp.get("quantity"));
+            tmp.put("quantity", Integer.toString(--num));
+            if(0 == num){
+                commodityMap.remove(commodity.getName());
+            }
+
+        }
         refreshListData();
     }
 
