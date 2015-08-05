@@ -67,51 +67,54 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    private void initTestData(){
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        // Test data
-        map.put("title", "这是啥");
-        map.put("pic", R.drawable.mushroom);
-        mArray.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("title", "那是啥");
-        map.put("pic", R.drawable.mushroom);
-        mArray.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("title", "还有啥");
-        map.put("pic", R.drawable.mushroom);
-        mArray.add(map);
-    }
+//    private void initTestData(){
+//        Map<String, Object> map = new HashMap<String, Object>();
+//
+//        // Test data
+//        map.put("title", "这是啥");
+//        map.put("pic", R.drawable.mushroom);
+//        mArray.add(map);
+//
+//        map = new HashMap<String, Object>();
+//        map.put("title", "那是啥");
+//        map.put("pic", R.drawable.mushroom);
+//        mArray.add(map);
+//
+//        map = new HashMap<String, Object>();
+//        map.put("title", "还有啥");
+//        map.put("pic", R.drawable.mushroom);
+//        mArray.add(map);
+//    }
 
     private void refreshListData(){
-        Map<String, Object> map;
         mArray.clear();
+        Map<String, Map<String, Object>> mapArray = new HashMap<>();
 
         for(Commodity cm:commodityArrayList){
-            boolean isFindOut = false;
 
-            for(Map<String,Object> tmp:mArray){
-                if(((String)tmp.get("title")).equalsIgnoreCase(cm.getName())){
-                    // find out the node
-                    isFindOut = true;
-                    int num = Integer.parseInt((String) tmp.get("quantity"));
-                    tmp.put("quantity", ++num);
-                }
-            }
+            if (mapArray.containsKey(cm.getName())){
 
-            if(false == isFindOut) {
-                map = new HashMap<String, Object>();
+                Map<String, Object> tmp = mapArray.get(cm.getName());
+                int num = Integer.parseInt((String) tmp.get("quantity"));
+                tmp.put("quantity", Integer.toString(++num));
+
+
+            }else {
+
+                Map<String, Object> map = new HashMap<String, Object>();
                 map.put("title", cm.getName());
                 map.put("price", cm.getPrice());
                 map.put("quantity", "1");
                 map.put("pic", R.drawable.mushroom);
-                mArray.add(map);
+                mapArray.put(cm.getName(), map);
             }
 
         }
+
+        for(Map<String, Object> map : mapArray.values()){
+            mArray.add(map);
+        }
+
         mCartListAdapter.notifyDataSetChanged();
     }
 
