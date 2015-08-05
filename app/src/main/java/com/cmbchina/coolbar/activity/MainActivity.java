@@ -166,6 +166,9 @@ public class MainActivity extends BaseSlidingFragmentActivity implements View.On
                     if (num > 0) {
                         num--;
                         Commodity cm = new Commodity();
+                        cm.setId("abc");
+                        cm.setName("矿泉水");
+                        cm.setPrice(new Float(3.5));
                         mCartFrag.subCommoditytoCart(cm);
                     }
                     quantity.setText(Integer.toString(num));
@@ -179,6 +182,9 @@ public class MainActivity extends BaseSlidingFragmentActivity implements View.On
                     num++;
                     quantity.setText(Integer.toString(num));
                     Commodity cm = new Commodity();
+                    cm.setId("abc");
+                    cm.setName("矿泉水");
+                    cm.setPrice(new Float(3.5));
                     mCartFrag.addCommoditytoCart(cm);
                 }
             });

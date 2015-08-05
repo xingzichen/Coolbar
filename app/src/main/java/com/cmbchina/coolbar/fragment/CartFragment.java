@@ -61,8 +61,9 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
         mCartListView.setAdapter(mCartListAdapter);
 
-        initTestData();
+//        initTestData();
 
+        refreshListData();
         return view;
     }
 
@@ -87,6 +88,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
     private void refreshListData(){
         Map<String, Object> map;
+        mArray.clear();
 
         for(Commodity cm:commodityArrayList){
             boolean isFindOut = false;
@@ -95,7 +97,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 if(((String)tmp.get("title")).equalsIgnoreCase(cm.getName())){
                     // find out the node
                     isFindOut = true;
-                    int num = Integer.parseInt((String) tmp.get("title"));
+                    int num = Integer.parseInt((String) tmp.get("quantity"));
                     tmp.put("quantity", ++num);
                 }
             }
@@ -106,17 +108,21 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 map.put("price", cm.getPrice());
                 map.put("quantity", "1");
                 map.put("pic", R.drawable.mushroom);
+                mArray.add(map);
             }
 
         }
+        mCartListAdapter.notifyDataSetChanged();
     }
 
     public void addCommoditytoCart(Commodity commodity){
         commodityArrayList.add(commodity);
+        refreshListData();
     }
 
     public void subCommoditytoCart(Commodity commodity){
         commodityArrayList.remove(commodity);
+        refreshListData();
     }
 
     private class CartListAdapter extends SimpleAdapter {
